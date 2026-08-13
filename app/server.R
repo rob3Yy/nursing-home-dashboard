@@ -26,6 +26,18 @@ server <- function(input, output, session) {
     data
   })  
   
+  output$kpi_count <- renderText({
+    nrow(filtered_data())
+  })
+  
+  output$kpi_avg_rating <- renderText({
+    round(mean(filtered_data()$overall_rating, na.rm = TRUE), 2)
+  })
+  
+  output$kpi_avg_staffing <- renderText({
+    round(mean(filtered_data()$total_nursing_hours, na.rm = TRUE), 2)
+  })
+  
   pal <- colorNumeric(palette = "RdYlGn", domain = wa_nursing_homes$overall_rating)
   
   output$map <-renderLeaflet({

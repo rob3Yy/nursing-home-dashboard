@@ -25,6 +25,13 @@ ui <- fluidPage(
     ),
     
     mainPanel(
+      fluidRow(
+        column(4, h4("Facilities Shown"), textOutput("kpi_count")),
+        column(4, h4("Avg Overall Rating"), textOutput("kpi_avg_rating")),
+        column(4, h4("Avg Staffing Hours"), textOutput("kpi_avg_staffing"))
+      ),
+      
+      hr(),
       leafletOutput("map")
       
     )
