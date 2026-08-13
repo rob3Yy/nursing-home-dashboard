@@ -30,7 +30,11 @@ ui <- fluidPage(
         column(4, h4("Avg Overall Rating"), textOutput("kpi_avg_rating")),
         column(4, h4("Avg Staffing Hours"), textOutput("kpi_avg_staffing"))
       ),
-      
+      fluidRow(
+        column(4, h4("Avg RN Hours"), textOutput("kpi_avg_rn")),
+        column(4, h4("Total Fines"), textOutput("kpi_total_fines")),
+        column(4, h4("% Rated 4+ Stars"), textOutput("kpi_pct_high_rated"))
+      ),
       hr(),
       leafletOutput("map")
       

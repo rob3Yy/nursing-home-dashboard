@@ -38,6 +38,20 @@ server <- function(input, output, session) {
     round(mean(filtered_data()$total_nursing_hours, na.rm = TRUE), 2)
   })
   
+  output$kpi_avg_rn <- renderText({
+    round(mean(filtered_data()$rn_hours, na.rm = TRUE), 2)
+  })
+  
+  output$kpi_total_fines <- renderText({
+    round(sum(filtered_data()$total_fines, na.rm = TRUE), 0)
+  })
+  
+  output$kpi_pct_high_rated <- renderText({
+    data <- filtered_data()
+    pct <- mean(data$overall_rating >= 4, na.rm = TRUE) * 100
+    paste0(round(pct, 1), "%")
+  })
+  
   pal <- colorNumeric(palette = "RdYlGn", domain = wa_nursing_homes$overall_rating)
   
   output$map <-renderLeaflet({
