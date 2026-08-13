@@ -1,4 +1,5 @@
 library(shiny)
+library(leaflet)
 
 ui <- fluidPage(
   titlePanel("WA Nursing Home Quality Dashboard"),
@@ -9,6 +10,7 @@ ui <- fluidPage(
     ),
     
     mainPanel(
+      leafletOutput("map")
       
     )
   )
