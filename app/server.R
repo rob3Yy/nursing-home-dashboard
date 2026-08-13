@@ -17,7 +17,13 @@ server <- function(input, output, session) {
         popup = ~provider_name, 
         color = ~pal(overall_rating),
         radius = 6,
-        fillOpacity = 0.8)
+        fillOpacity = 0.8) %>%
+      addLegend(
+        position = "bottomright",
+        pal = pal,
+        values = ~overall_rating,
+        opacity = 1
+      )
     
   })
   
