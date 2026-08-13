@@ -1,11 +1,15 @@
 library(shiny)
 
-ui <-fluidPage(
+ui <- fluidPage(
   titlePanel("WA Nursing Home Quality Dashboard"),
+  
   sidebarLayout(
-    sidebarPanel = 
-  ),
-  mainPanel(
+    sidebarPanel(
+      
+    ),
     
+    mainPanel(
+      
+    )
   )
 )
