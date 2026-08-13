@@ -2,6 +2,7 @@ library(shiny)
 library(leaflet)
 library(readr)
 library(ggplot2)
+library(DT)
 
 server <- function(input, output, session) {
   
@@ -57,6 +58,10 @@ server <- function(input, output, session) {
   output$staffing_rating_plot <- renderPlot({
     data <- filtered_data()
     
+    output$facility_table <- renderDT({
+      filtered_data()[, c("provider_name", "city", "county", "overall_rating", "total_nursing_hours")]
+    })
+    
     summary_data <- aggregate(
       total_nursing_hours ~ overall_rating,
       data = data,
@@ -76,23 +81,24 @@ server <- function(input, output, session) {
   
   pal <- colorNumeric(palette = "RdYlGn", domain = wa_nursing_homes$overall_rating)
   
-  output$map <-renderLeaflet({
+  output$map <- renderLeaflet({
     leaflet(filtered_data()) %>%
-      addTiles()%>%
+      setView(lng = -120.5, lat = 47.4, zoom = 7) %>%
+      addTiles() %>%
       addCircleMarkers(
         lng = ~longitude, 
         lat = ~latitude, 
         popup = ~provider_name, 
         color = ~pal(overall_rating),
         radius = 6,
-        fillOpacity = 0.8) %>%
+        fillOpacity = 0.8
+      ) %>%
       addLegend(
         position = "bottomright",
         pal = pal,
         values = ~overall_rating,
         opacity = 1
       )
-    
   })
   
   
