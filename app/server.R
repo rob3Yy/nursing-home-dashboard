@@ -3,13 +3,33 @@ library(leaflet)
 library(readr)
 server <- function(input, output, session) {
   
-  wa_nursing_homes <- read_csv("../data/clean/wa_nursing_homes.csv")  
+  wa_nursing_homes <- read_csv("../data/clean/wa_nursing_homes.csv") 
+    
+  observe({
+    updateSelectInput(
+      session,
+      inputId = "county_filter",
+      choices = c("All", sort(unique(wa_nursing_homes$county))),
+      selected = "All"
+    )
+  })
   
+  filtered_data <- reactive({
+    data <- wa_nursing_homes
+    
+    if (input$county_filter != "All") {
+      data <- data[data$county == input$county_filter, ]
+    }
+    
+    data <- data[data$overall_rating >= input$rating_filter | is.na(data$overall_rating), ]
+    
+    data
+  })  
   
   pal <- colorNumeric(palette = "RdYlGn", domain = wa_nursing_homes$overall_rating)
   
   output$map <-renderLeaflet({
-    leaflet(wa_nursing_homes) %>%
+    leaflet(filtered_data()) %>%
       addTiles()%>%
       addCircleMarkers(
         lng = ~longitude, 
