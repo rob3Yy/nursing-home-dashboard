@@ -1,6 +1,8 @@
 library(shiny)
 library(leaflet)
 library(readr)
+library(ggplot2)
+
 server <- function(input, output, session) {
   
   wa_nursing_homes <- read_csv("../data/clean/wa_nursing_homes.csv") 
@@ -50,6 +52,26 @@ server <- function(input, output, session) {
     data <- filtered_data()
     pct <- mean(data$overall_rating >= 4, na.rm = TRUE) * 100
     paste0(round(pct, 1), "%")
+  })
+  
+  output$staffing_rating_plot <- renderPlot({
+    data <- filtered_data()
+    
+    summary_data <- aggregate(
+      total_nursing_hours ~ overall_rating,
+      data = data,
+      FUN = mean,
+      na.rm = TRUE
+    )
+    
+    ggplot(summary_data, aes(x = factor(overall_rating), y = total_nursing_hours)) +
+      geom_col(fill = "steelblue") +
+      labs(
+        x = "Overall Rating",
+        y = "Avg Total Nursing Hours",
+        title = "Average Staffing Hours by Overall Rating"
+      ) +
+      theme_minimal()
   })
   
   pal <- colorNumeric(palette = "RdYlGn", domain = wa_nursing_homes$overall_rating)

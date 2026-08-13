@@ -1,5 +1,6 @@
 library(shiny)
 library(leaflet)
+library(ggplot2)
 
 ui <- fluidPage(
   titlePanel("WA Nursing Home Quality Dashboard"),
@@ -36,7 +37,9 @@ ui <- fluidPage(
         column(4, h4("% Rated 4+ Stars"), textOutput("kpi_pct_high_rated"))
       ),
       hr(),
-      leafletOutput("map")
+      leafletOutput("map"),
+      hr(),
+      plotOutput("staffing_rating_plot")
       
     )
   )
