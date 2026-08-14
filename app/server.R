@@ -6,8 +6,10 @@ library(DT)
 
 server <- function(input, output, session) {
   
-  wa_nursing_homes <- read_csv("../data/clean/wa_nursing_homes.csv") 
-    
+# load the data
+wa_nursing_homes <- read_csv("../data/clean/wa_nursing_homes.csv") 
+  
+ # populate county drop down from the data
   observe({
     updateSelectInput(
       session,
@@ -17,18 +19,17 @@ server <- function(input, output, session) {
     )
   })
   
+# filters the data based on county + rating slider
   filtered_data <- reactive({
-    data <- wa_nursing_homes
+data <- wa_nursing_homes
     
-    if (input$county_filter != "All") {
-      data <- data[data$county == input$county_filter, ]
+if (input$county_filter != "All") {
+  data <- data[data$county == input$county_filter, ]
     }
-    
-    data <- data[data$overall_rating >= input$rating_filter | is.na(data$overall_rating), ]
-    
-    data
+data <- data[data$overall_rating >= input$rating_filter | is.na(data$overall_rating), ]
+data
   })  
-  
+ # KPI stuff
   output$kpi_count <- renderText({
     nrow(filtered_data())
   })
@@ -55,14 +56,10 @@ server <- function(input, output, session) {
     paste0(round(pct, 1), "%")
   })
   
+  
+# bar chart - avg staffing per rating group
   output$staffing_rating_plot <- renderPlot({
     data <- filtered_data()
-    theme_minimal() +
-      theme(plot.margin = margin(10, 10, 10, 10))
-    
-    output$facility_table <- renderDT({
-      filtered_data()[, c("provider_name", "city", "county", "overall_rating", "total_nursing_hours")]
-    })
     
     summary_data <- aggregate(
       total_nursing_hours ~ overall_rating,
@@ -80,10 +77,10 @@ server <- function(input, output, session) {
       ) +
       theme_minimal()
   })
+  
+# scatter plot - staffing hours per facility
   output$staffing_scatter_plot <- renderPlot({
     data <- filtered_data()
-    theme_minimal() +
-      theme(plot.margin = margin(10, 10, 10, 10))
     
     ggplot(data, aes(x = overall_rating, y = total_nursing_hours)) +
       geom_jitter(width = 0.15, alpha = 0.6, color = "steelblue") +
@@ -95,6 +92,12 @@ server <- function(input, output, session) {
       theme_minimal()
   })
   
+ # facility table
+  output$facility_table <- renderDT({
+    filtered_data()[, c("provider_name", "city", "county", "overall_rating", "total_nursing_hours")]
+  })
+
+ # map stuff
   pal <- colorNumeric(palette = "RdYlGn", domain = wa_nursing_homes$overall_rating)
   
   output$map <- renderLeaflet({
@@ -116,8 +119,5 @@ server <- function(input, output, session) {
         opacity = 1
       )
   })
-  
-  
-  
   
 }
