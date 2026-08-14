@@ -57,6 +57,8 @@ server <- function(input, output, session) {
   
   output$staffing_rating_plot <- renderPlot({
     data <- filtered_data()
+    theme_minimal() +
+      theme(plot.margin = margin(10, 10, 10, 10))
     
     output$facility_table <- renderDT({
       filtered_data()[, c("provider_name", "city", "county", "overall_rating", "total_nursing_hours")]
@@ -75,6 +77,20 @@ server <- function(input, output, session) {
         x = "Overall Rating",
         y = "Avg Total Nursing Hours",
         title = "Average Staffing Hours by Overall Rating"
+      ) +
+      theme_minimal()
+  })
+  output$staffing_scatter_plot <- renderPlot({
+    data <- filtered_data()
+    theme_minimal() +
+      theme(plot.margin = margin(10, 10, 10, 10))
+    
+    ggplot(data, aes(x = overall_rating, y = total_nursing_hours)) +
+      geom_jitter(width = 0.15, alpha = 0.6, color = "steelblue") +
+      labs(
+        x = "Overall Rating",
+        y = "Total Nursing Hours",
+        title = "Staffing Hours by Facility"
       ) +
       theme_minimal()
   })
