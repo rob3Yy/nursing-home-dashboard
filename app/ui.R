@@ -6,6 +6,8 @@ library(DT)
 # UI
 ui <- fluidPage(
   titlePanel("WA Nursing Home Quality Dashboard"),
+  actionButton("show_about", "About This Dashboard", 
+               style = "margin-bottom: 15px; background-color:#2c7fb8; color:white; border:none; padding:8px 16px; border-radius:4px;"),
   
   sidebarLayout(
     

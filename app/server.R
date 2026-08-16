@@ -151,5 +151,26 @@ data
       ))
     }
   })
+  observeEvent(input$show_about, {
+    showModal(modalDialog(
+      title = "About This Dashboard",
+      easyClose = TRUE,
+      footer = modalButton("Close"),
+      size = "l",
+      
+      h4("Purpose"),
+      p("This dashboard helps people evaluate nursing home quality across Washington State using CMS's public Care Compare data, so families and researchers can quickly compare facilities on rating, staffing, and safety."),
+      
+      h4("About the Data"),
+      p("Data comes from CMS's Provider Information dataset, filtered down to Washington State's 193 facilities and 18 relevant columns. Facilities missing a rating or staffing value (a real CMS reporting gap) are kept and labeled rather than dropped."),
+      
+      h4("Statistical Notes & Limitations"),
+      p("Average fines and staffing figures are calculated per facility, not aggregated totals, to avoid skewing comparisons across groups with different facility counts. The trend line on the staffing scatter plot uses a simple linear model and should be read as a general pattern, not a precise prediction."),
+      
+      h4("Links"),
+      p(a("View source code on GitHub", href = "https://github.com/rob3Yy/nursing-home-dashboard.git", target = "_blank")),
+      p(a("CMS Care Compare Data", href = "https://data.cms.gov/provider-data/topics/nursing-homes", target = "_blank"))
+    ))
+  })
   
 }
