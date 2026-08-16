@@ -20,6 +20,7 @@ wa_nursing_homes <- read_csv("../data/clean/wa_nursing_homes.csv")
   })
   
 # filters the data based on county + rating slider
+  
   filtered_data <- reactive({
 data <- wa_nursing_homes
     
@@ -109,7 +110,8 @@ data
       addCircleMarkers(
         lng = ~longitude, 
         lat = ~latitude, 
-        popup = ~provider_name, 
+        popup = ~provider_name,
+        label = ~paste0(provider_name, " — Rating: ", overall_rating),
         fillColor = ~pal(overall_rating),
         color = "black",
         weight = 2.5,

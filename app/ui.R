@@ -60,15 +60,6 @@ div(style = "background-color:#2c7fb8; color:white; padding:15px; margin-bottom:
   h3(textOutput("kpi_avg_rn"), style="margin:5px 0 0 0;"),
 p("Avg RN Hours", style="margin:0;")
       ),
-      
-
-#  KPI for Total Fines  ---------------------------------------------------
-
- div(style = "background-color:#e34a33; color:white; padding:15px; margin-bottom:10px; border-radius:6px;",
-          icon("triangle-exclamation", style="font-size:20px;"),
-          h3(textOutput("kpi_total_fines"), style="margin:5px 0 0 0;"),
-          p("Total Fines", style="margin:0;")
-      ),
 
 #  KPI for Facilites Rating  ----------------------------------------------
 
@@ -93,26 +84,31 @@ div(style = "background-color:#41ab5d; color:white; padding:15px; margin-bottom:
     ),
     
  # MAIN PANEL Map, Table, Charts 
-    mainPanel(
-      
- # Map ----
-      leafletOutput("map"),
-      
-#  Facility Table ----
-      DTOutput("facility_table"),
-      
-      hr(),
-      
- # Charts Bar chart + Scatter plot side by side 
-      fluidRow(
-        style = "margin: 0;",
-        column(6, style = "padding: 0;",
-               plotOutput("staffing_rating_plot", width = "100%", height = "350px")
-        ),
-        column(6, style = "padding: 0;",
-               plotOutput("staffing_scatter_plot", width = "100%", height = "350px")
-        )
-      )
+mainPanel(
+  tabsetPanel(
+    tabPanel("Map", 
+             br(),
+             leafletOutput("map", height = "800px")
+    ),
+    
+    tabPanel("Data Table", 
+             br(),
+             DTOutput("facility_table")
+    ),
+    
+    tabPanel("Charts", 
+             br(),
+             fluidRow(
+               style = "margin: 0;",
+               column(6, style = "padding: 0;",
+                      plotOutput("fines_rating_plot", width = "100%", height = "650px")
+               ),
+               column(6, style = "padding: 0;",
+                      plotOutput("staffing_scatter_plot", width = "100%", height = "650px")
+               )
+             )
     )
   )
+)
+)
 )
