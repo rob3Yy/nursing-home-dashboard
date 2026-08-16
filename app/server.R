@@ -125,5 +125,31 @@ data
         opacity = 1
       )
   })
+  observeEvent(input$facility_table_cell_clicked, {
+    info <- input$facility_table_cell_clicked
+    
+    if (is.null(info$value)) return()
+    
+    # column 4 = overall_rating -> update the slider
+    if (info$col == 4) {
+      updateSliderInput(session, "rating_filter", value = info$value)
+    }
+    
+    # column 1 = provider_name -> show facility detail popup
+    if (info$col == 1) {
+      row_data <- filtered_data()[info$row, ]
+      
+      showModal(modalDialog(
+        title = row_data$provider_name,
+        easyClose = TRUE,
+        footer = modalButton("Close"),
+        
+        p(strong("City: "), row_data$city),
+        p(strong("County: "), row_data$county),
+        p(strong("Overall Rating: "), row_data$overall_rating),
+        p(strong("Total Nursing Hours: "), round(row_data$total_nursing_hours, 1))
+      ))
+    }
+  })
   
 }
