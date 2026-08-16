@@ -46,10 +46,6 @@ data
     round(mean(filtered_data()$rn_hours, na.rm = TRUE), 2)
   })
   
-  output$kpi_total_fines <- renderText({
-    round(sum(filtered_data()$total_fines, na.rm = TRUE), 0)
-  })
-  
   output$kpi_pct_high_rated <- renderText({
     data <- filtered_data()
     pct <- mean(data$overall_rating >= 4, na.rm = TRUE) * 100
@@ -58,22 +54,25 @@ data
   
   
 # bar chart - avg staffing per rating group
-  output$staffing_rating_plot <- renderPlot({
+  output$fines_rating_plot <- renderPlot({
     data <- filtered_data()
     
     summary_data <- aggregate(
-      total_nursing_hours ~ overall_rating,
+      total_fines ~ overall_rating,
       data = data,
       FUN = mean,
       na.rm = TRUE
     )
     
-    ggplot(summary_data, aes(x = factor(overall_rating), y = total_nursing_hours)) +
-      geom_col(fill = "steelblue") +
+    ggplot(summary_data, aes(x = factor(overall_rating), y = total_fines)) +
+      geom_col(fill = "#e34a33") +
+      geom_text(aes(label = paste0("$", format(round(total_fines), big.mark = ","))), 
+                vjust = -0.5, size = 4) +
+      scale_y_continuous(labels = scales::dollar) +
       labs(
-        x = "Overall Rating",
-        y = "Avg Total Nursing Hours",
-        title = "Average Staffing Hours by Overall Rating"
+        x = "Overall Star Rating (1–5 Stars)",
+        y = "Average Fine per Facility ($)",
+        title = "Average Fines by Overall Rating"
       ) +
       theme_minimal()
   })
@@ -84,6 +83,7 @@ data
     
     ggplot(data, aes(x = overall_rating, y = total_nursing_hours)) +
       geom_jitter(width = 0.15, alpha = 0.6, color = "steelblue") +
+      geom_smooth(method = "lm", se = TRUE, color = "darkred", linewidth = 1) +
       labs(
         x = "Overall Rating",
         y = "Total Nursing Hours",
