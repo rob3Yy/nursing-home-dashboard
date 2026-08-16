@@ -110,9 +110,11 @@ data
         lng = ~longitude, 
         lat = ~latitude, 
         popup = ~provider_name, 
-        color = ~pal(overall_rating),
+        fillColor = ~pal(overall_rating),
+        color = "black",
+        weight = 2.5,
         radius = 6,
-        fillOpacity = 0.8
+        fillOpacity = 0.9
       ) %>%
       addLegend(
         position = "bottomright",

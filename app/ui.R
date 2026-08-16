@@ -15,7 +15,7 @@ ui <- fluidPage(
 # Filtering 
       selectInput(
         inputId = 'county_filter',
-        label = 'county',
+        label = 'County',
         choices = c("All"),
         selected = 'All'
       ),
@@ -86,9 +86,9 @@ div(style = "background-color:#41ab5d; color:white; padding:15px; margin-bottom:
           p(span(style="display:inline-block; width:20px; height:20px; background-color:#2c7fb8; margin-right:10px; border-radius:4px; vertical-align:middle;"), 
             span("Informational", style="font-size:16px; vertical-align:middle;")),
           p(span(style="display:inline-block; width:20px; height:20px; background-color:#e34a33; margin-right:10px; border-radius:4px; vertical-align:middle;"), 
-            span("Needs attention", style="font-size:16px; vertical-align:middle;")),
+            span("Needs Attention", style="font-size:16px; vertical-align:middle;")),
           p(span(style="display:inline-block; width:20px; height:20px; background-color:#41ab5d; margin-right:10px; border-radius:4px; vertical-align:middle;"), 
-            span("Positive indicator", style="font-size:16px; vertical-align:middle;"))
+            span("Positive Indicator", style="font-size:16px; vertical-align:middle;"))
       )
     ),
     
