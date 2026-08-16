@@ -94,7 +94,9 @@ data
   
  # facility table
   output$facility_table <- renderDT({
-    filtered_data()[, c("provider_name", "city", "county", "overall_rating", "total_nursing_hours")]
+    data <- filtered_data()[, c("provider_name", "city", "county", "overall_rating", "total_nursing_hours")]
+    data$total_nursing_hours <- round(data$total_nursing_hours, 1)
+    data
   })
 
  # map stuff
