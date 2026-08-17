@@ -8,7 +8,11 @@ An R Shiny dashboard for exploring nursing home quality across Washington State,
 Deployment to shinyapps.io was attempted but blocked by a known compatibility issue between the `terra` package (a transitive dependency of `leaflet`) 
 and shinyapps.io's server-side GDAL library version. The app runs correctly in a local R/Shiny environment — see the demo video below.
 
-[Watch the demo video](demo/dashboard_demo.mp4)
+[Watch the demo video](
+
+https://github.com/user-attachments/assets/3582c961-e31d-4fae-a029-bf46913ad923
+
+)
 
 ## Features
 - Interactive map with facility markers color-coded by overall rating
